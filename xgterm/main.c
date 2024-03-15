@@ -2039,8 +2039,6 @@ void first_map_occurred ()
 
 #ifdef NEW_SPAWN
 
-extern char **environ;
-
 char *
 x_basename(char *name)
 {
@@ -2079,25 +2077,10 @@ set_owner(char *device, int uid, int gid, int mode)
 void
 xtermSetenv(register char *var, register char *value)
 {
-    register int envindex = 0;
-    register size_t len = strlen(var);
-
-    while (environ[envindex] != NULL) {
-        if (strncmp(environ[envindex], var, len) == 0) {
-            /* found it */
-            environ[envindex] = (char *) malloc((unsigned) len
-                                                + strlen(value) + 1);
-            strcpy(environ[envindex], var);
-            strcat(environ[envindex], value);
-            return;
-        }
-        envindex++;
-    }
-
-    environ[envindex] = (char *) malloc((unsigned) len + strlen(value) + 1);
-    (void) strcpy(environ[envindex], var);
-    strcat(environ[envindex], value);
-    environ[++envindex] = NULL;
+    char *envstring = malloc(strlen(var) + strlen(value) + 1);
+    strcpy(envstring, var);
+    strcat(envstring, value);
+    putenv(envstring);
 }
 
 
@@ -2213,7 +2196,6 @@ spawn(void)
     char *ptr, *shname, *shname_minus;
     int i, no_dev_tty = FALSE;
     char **envnew;		/* new environment */
-    int envsize;		/* elements in new environment */
     char buf[64];
     char *TermName = NULL;
 #ifdef TTYSIZE_STRUCT
@@ -3081,28 +3063,6 @@ spawn(void)
 	    }
 #endif
 
-	    /* copy the environment before Setenving */
-	    for (i = 0; environ[i] != NULL; i++) ;
-	    /* compute number of xtermSetenv() calls below */
-	    envsize = 1;	/* (NULL terminating entry) */
-	    envsize += 3;	/* TERM, WINDOWID, DISPLAY */
-#ifdef HAVE_UTMP
-	    envsize += 1;	/* LOGNAME */
-#endif /* HAVE_UTMP */
-#ifdef USE_SYSV_ENVVARS
-	    envsize += 2;	/* COLUMNS, LINES */
-#ifdef HAVE_UTMP
-	    envsize += 2;	/* HOME, SHELL */
-#endif /* HAVE_UTMP */
-#ifdef OWN_TERMINFO_DIR
-	    envsize += 1;	/* TERMINFO */
-#endif
-#else /* USE_SYSV_ENVVARS */
-	    envsize += 1;	/* TERMCAP */
-#endif /* USE_SYSV_ENVVARS */
-	    envnew = (char **) calloc((unsigned) i + envsize, sizeof(char *));
-	    memmove((char *) envnew, (char *) environ, i * sizeof(char *));
-	    environ = envnew;
 	    xtermSetenv("TERM=", TermName);
 	    if (!TermName)
 		*newtc = 0;
@@ -3780,7 +3740,6 @@ spawn ()
 	int fd;			/* for /etc/wtmp */
 #endif	/* USE_SYSV_TERMIO */
 	char **envnew;		/* new environment */
-	int envsize;		/* elements in new environment */
 	char buf[64];
 	char *TermName = NULL;
 	int ldisc = 0;
@@ -4042,7 +4001,6 @@ spawn ()
 		/*
 		 * now in child process
 		 */
-		extern char **environ;
 #if defined(_POSIX_SOURCE) || defined(SVR4) || defined(__convex__)
 		int pgrp = setsid();
 #else
@@ -4411,28 +4369,6 @@ spawn ()
 		signal (SIGQUIT, SIG_DFL);
 		signal (SIGTERM, SIG_DFL);
 
-		/* copy the environment before Setenving */
-		for (i = 0 ; environ [i] != NULL ; i++)
-		    ;
-		/* compute number of Setenv() calls below */
-		envsize = 1;	/* (NULL terminating entry) */
-		envsize += 3;	/* TERM, WINDOWID, DISPLAY */
-#ifdef UTMP
-		envsize += 1;   /* LOGNAME */
-#endif /* UTMP */
-#ifdef USE_SYSV_ENVVARS
-#ifndef TIOCSWINSZ		/* window size not stored in driver? */
-		envsize += 2;	/* COLUMNS, LINES */
-#endif /* TIOCSWINSZ */
-#ifdef UTMP
-		envsize += 2;   /* HOME, SHELL */
-#endif /* UTMP */
-#else /* USE_SYSV_ENVVARS */
-		envsize += 1;	/* TERMCAP */
-#endif /* USE_SYSV_ENVVARS */
-		envnew = (char **) calloc ((unsigned) i + envsize, sizeof(char *));
-		memmove( (char *)envnew, (char *)environ, i * sizeof(char *));
-		environ = envnew;
 		Setenv ("TERM=", TermName);
 		if(!TermName)
 			*newtc = 0;
