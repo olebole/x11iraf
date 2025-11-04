@@ -34,6 +34,21 @@ jobs:
           sudo installer -package /Volumes/XQuartz-2.8.1/XQuartz.pkg -target /
           sudo rm -f /usr/local/include/tcl.h
 
+      - name: Show environment (shell)
+        run: |
+          echo "=== ENVIRONMENT ==="
+          env | sort
+          echo "=== Compiler info ==="
+          clang --version
+          echo "=== CFLAGS / LDFLAGS / PKG_CONFIG_PATH ==="
+          echo "CFLAGS=$CFLAGS"
+          echo "CPPFLAGS=$CPPFLAGS"
+          echo "LDFLAGS=$LDFLAGS"
+          echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
+          echo "CPATH=$CPATH"
+          echo "LIBRARY_PATH=$LIBRARY_PATH"
+          echo "DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH"
+
       - name: build X11IRAF
         run: |
           make
