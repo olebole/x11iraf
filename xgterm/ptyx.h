@@ -464,7 +464,7 @@ typedef struct _XgtermClassRec {
 
 typedef unsigned Tabs [TAB_ARRAY_SIZE];
 
-typedef struct _XgtermWidgetRec {
+typedef struct _XtermWidgetRec {
     CorePart	core;
     TKeyboard	keyboard;	/* terminal keyboard		*/
     TScreen	screen;		/* terminal screen		*/
@@ -474,7 +474,7 @@ typedef struct _XgtermWidgetRec {
     unsigned	initflags;	/* initial mode flags		*/
     Tabs	tabs;		/* tabstops of the terminal	*/
     Misc	misc;		/* miscellaneous parameters	*/
-} XgtermWidgetRec, *XgtermWidget;
+} XtermWidgetRec, *XtermWidget;
 
 #define BUF_SIZE 4096
 

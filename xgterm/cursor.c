@@ -31,7 +31,7 @@
 
 static void _CheckSelection(TScreen *screen)
 {
-    extern XgtermWidget term;	/* %%% gross */
+    extern XtermWidget term;	/* %%% gross */
 
     if (screen->cur_row > screen->endHRow ||
 	(screen->cur_row == screen->endHRow &&
@@ -72,7 +72,7 @@ void
 CursorBack(TScreen *screen, int n)
 {
 	int i, j, k, rev;
-	extern XgtermWidget term;
+	extern XtermWidget term;
 
 	if((rev = (term->flags & (REVERSEWRAP | WRAPAROUND)) ==
 	 (REVERSEWRAP | WRAPAROUND)) && screen->do_wrap)
@@ -203,7 +203,7 @@ CarriageReturn(TScreen *screen)
  * Save Cursor and Attributes
  */
 void
-CursorSave(XgtermWidget term, SavedCursor *sc)
+CursorSave(XtermWidget term, SavedCursor *sc)
 {
 	TScreen *screen = &term->screen;
 
@@ -219,7 +219,7 @@ CursorSave(XgtermWidget term, SavedCursor *sc)
  * Restore Cursor and Attributes
  */
 void
-CursorRestore(XgtermWidget term, SavedCursor *sc)
+CursorRestore(XtermWidget term, SavedCursor *sc)
 {
 	TScreen *screen = &term->screen;
 

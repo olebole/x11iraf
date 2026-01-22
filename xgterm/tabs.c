@@ -77,7 +77,7 @@ TabClear(unsigned int *tabs, int col)
 int
 TabNext (unsigned int *tabs, int col)
 {
-	extern XgtermWidget term;
+	extern XtermWidget term;
 	TScreen *screen = &term->screen;
 
 	if(screen->curses && screen->do_wrap && (term->flags & WRAPAROUND)) {

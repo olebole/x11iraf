@@ -71,10 +71,10 @@ static void SelectSet(Widget w, XEvent *event, String *params, Cardinal num_para
 static void StartSelect(int startrow, int startcol);
 static int Length(TScreen *screen, int row, int scol, int ecol);
 static char *SaveText(TScreen *screen, int row, int scol, int ecol, char *lp, int *eol);
-void DisownSelection(XgtermWidget termw);
+void DisownSelection(XtermWidget termw);
 void TrackText(int frow, int fcol, int trow, int tcol);
 
-extern XgtermWidget term;
+extern XtermWidget term;
 
 /* Selection/extension variables */
 
@@ -112,7 +112,7 @@ static int replyToEmacs;
 
 Boolean SendMousePosition(Widget w, XEvent *event)
 {
-    TScreen *screen = &((XgtermWidget)w)->screen;
+    TScreen *screen = &((XtermWidget)w)->screen;
     
     if (screen->send_mouse_pos == 0) return False;
 
@@ -231,7 +231,7 @@ void HandleSelectExtend(Widget w, XEvent *event, String *params, Cardinal *num_p
                			/* unused */
                      		/* unused */
 {
-	TScreen *screen = &((XgtermWidget)w)->screen;
+	TScreen *screen = &((XtermWidget)w)->screen;
 	int row, col;
 
 	screen->selection_time = event->xmotion.time;
@@ -257,7 +257,7 @@ static void do_select_end (Widget w, XEvent *event, String *params, Cardinal *nu
                      
                     
 {
-	((XgtermWidget)w)->screen.selection_time = event->xbutton.time;
+	((XtermWidget)w)->screen.selection_time = event->xbutton.time;
 	switch (eventMode) {
 		case NORMAL :
 		    (void) SendMousePosition(w, event);
@@ -321,7 +321,7 @@ static void _GetSelection(Widget w, Time time, String *params, Cardinal num_para
       default:	       cutbuffer = -1;
     }
     if (cutbuffer >= 0) {
-	TScreen *screen = &((XgtermWidget)w)->screen;
+	TScreen *screen = &((XtermWidget)w)->screen;
 	int inbytes;
 	unsigned long nbytes;
 	int fmt8 = 8;
@@ -358,7 +358,7 @@ static void SelectionReceived(
   unsigned long *length,
   int *format)
 {
-    int pty = ((XgtermWidget)w)->screen.respond;	/* file descriptor of pty */
+    int pty = ((XtermWidget)w)->screen.respond;	/* file descriptor of pty */
     char *lag, *cp, *end;
     char *line = (char*)value;
 				  
@@ -438,7 +438,7 @@ HandleSelectStart(Widget w, XEvent *event, String *params, Cardinal *num_params)
                			/* unused */
                      		/* unused */
 {
-	TScreen *screen = &((XgtermWidget)w)->screen;
+	TScreen *screen = &((XtermWidget)w)->screen;
 	int startrow, startcol;
 
 	firstValidRow = 0;
@@ -456,7 +456,7 @@ HandleKeyboardSelectStart(Widget w, XEvent *event, String *params, Cardinal *num
                			/* unused */
                      		/* unused */
 {
-	TScreen *screen = &((XgtermWidget)w)->screen;
+	TScreen *screen = &((XtermWidget)w)->screen;
 
 	do_select_start (w, event, screen->cursor_row, screen->cursor_col);
 }
@@ -611,7 +611,7 @@ static void do_start_extend (Widget w, XEvent *event, String *params, Cardinal *
                      		/* unused */
                     
 {
-	TScreen *screen = &((XgtermWidget)w)->screen;
+	TScreen *screen = &((XtermWidget)w)->screen;
 	int row, col, coord;
 
 	if (SendMousePosition(w, event)) return;
@@ -1067,7 +1067,7 @@ ReHiliteText(int frow, int fcol, int trow, int tcol)
 	}
 }
 
-static void _OwnSelection(XgtermWidget termw, String *selections, Cardinal count);
+static void _OwnSelection(XtermWidget termw, String *selections, Cardinal count);
 
 static void
 SaltTextAway(int crow, int ccol, int row, int col, String *params, Cardinal num_params)
@@ -1142,7 +1142,7 @@ static Boolean ConvertSelection(
     int *format)
 {
     Display* d = XtDisplay(w);
-    XgtermWidget xterm = (XgtermWidget)w;
+    XtermWidget xterm = (XtermWidget)w;
 
     if (xterm->screen.selection == NULL) return False; /* can this happen? */
 
@@ -1220,7 +1220,7 @@ static Boolean ConvertSelection(
 
 static void LoseSelection(Widget w, Atom *selection)
 {
-    TScreen* screen = &((XgtermWidget)w)->screen;
+    TScreen* screen = &((XtermWidget)w)->screen;
     Atom* atomP;
     int i;
     for (i = 0, atomP = screen->selection_atoms;
@@ -1264,7 +1264,7 @@ static void SelectionDone(Widget w, Atom *selection, Atom *target)
 }
 
 
-static void _OwnSelection(XgtermWidget termw, String *selections, Cardinal count)
+static void _OwnSelection(XtermWidget termw, String *selections, Cardinal count)
 {
     Atom* atoms = termw->screen.selection_atoms;
     int i;
@@ -1315,7 +1315,7 @@ static void _OwnSelection(XgtermWidget termw, String *selections, Cardinal count
 }
 
 void
-DisownSelection(XgtermWidget termw)
+DisownSelection(XtermWidget termw)
 {
     Atom* atoms = termw->screen.selection_atoms;
     Cardinal count = termw->screen.selection_count;

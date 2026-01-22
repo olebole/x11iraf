@@ -46,14 +46,14 @@
 static void ScrollTextTo(Widget scrollbarWidget, XtPointer client_data, XtPointer call_data);
 static void ScrollTextUpDownBy(Widget scrollbarWidget, XtPointer client_data, XtPointer call_data);
 
-void ScrollBarOn(XgtermWidget xw, int init, int doalloc), ScrollBarOff(TScreen *screen), WindowScroll(TScreen *screen, int top);
+void ScrollBarOn(XtermWidget xw, int init, int doalloc), ScrollBarOff(TScreen *screen), WindowScroll(TScreen *screen, int top);
 
 
 /* resize the text window for a terminal screen, modifying the
  * appropriate WM_SIZE_HINTS and taking advantage of bit gravity.
  */
 
-static void ResizeScreen(XgtermWidget xw, int min_width, int min_height)
+static void ResizeScreen(XtermWidget xw, int min_width, int min_height)
 {
 	TScreen *screen = &xw->screen;
 #ifndef nothack
@@ -159,14 +159,14 @@ static void ResizeScreen(XgtermWidget xw, int min_width, int min_height)
 #endif
 }
 
-void DoResizeScreen (XgtermWidget xw)
+void DoResizeScreen (XtermWidget xw)
 {
     int border = 2 * xw->screen.border;
     ResizeScreen (xw, border + xw->screen.scrollbar, border);
 }
 
 
-static Widget CreateScrollBar(XgtermWidget xw, int x, int y, int height)
+static Widget CreateScrollBar(XtermWidget xw, int x, int y, int height)
 {
 	Widget scrollWidget;
 
@@ -297,7 +297,7 @@ WindowScroll(TScreen *screen, int top)
 
 
 void
-ScrollBarOn (XgtermWidget xw, int init, int doalloc)
+ScrollBarOn (XtermWidget xw, int init, int doalloc)
 {
 	TScreen *screen = &xw->screen;
 	int border = 2 * screen->border;
@@ -483,7 +483,7 @@ static int params_to_pixels (TScreen *screen, String *params, int n)
 /*ARGSUSED*/
 void HandleScrollForward (Widget gw, XEvent *event, String *params, Cardinal *nparams)
 {
-    XgtermWidget w = (XgtermWidget) gw;
+    XtermWidget w = (XtermWidget) gw;
     TScreen *screen = &w->screen;
 
     ScrollTextUpDownBy (gw, (XtPointer) NULL,
@@ -495,7 +495,7 @@ void HandleScrollForward (Widget gw, XEvent *event, String *params, Cardinal *np
 /*ARGSUSED*/
 void HandleScrollBack (Widget gw, XEvent *event, String *params, Cardinal *nparams)
 {
-    XgtermWidget w = (XgtermWidget) gw;
+    XtermWidget w = (XtermWidget) gw;
     TScreen *screen = &w->screen;
 
     ScrollTextUpDownBy (gw, (XtPointer) NULL,

@@ -1291,7 +1291,7 @@ main (int argc, char **argv)
 			      GrabModeAsync, GrabModeAsync);
 
 	/* Create the vt100 terminal emulator widget. */
-        term = (XgtermWidget) XtCreateManagedWidget ("vt100",
+        term = (XtermWidget) XtCreateManagedWidget ("vt100",
 	    xtermWidgetClass, toplevel, NULL, 0);
         screen = &term->screen;
 

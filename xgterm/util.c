@@ -958,7 +958,7 @@ handle_translated_exposure (TScreen *screen, int rect_x, int rect_y, unsigned in
 }
 
 void
-ReverseVideo (XgtermWidget termw)
+ReverseVideo (XtermWidget termw)
 {
 	TScreen *screen = &termw->screen;
 	GC tmpGC;
@@ -1022,7 +1022,7 @@ recolor_cursor (Cursor cursor, long unsigned int fg, long unsigned int bg)
 
 
 void
-GetColors(XgtermWidget term, ScrnColors *pColors)
+GetColors(XtermWidget term, ScrnColors *pColors)
 {
         TScreen *screen = &term->screen;
         GC tmpGC;
@@ -1039,7 +1039,7 @@ GetColors(XgtermWidget term, ScrnColors *pColors)
 
 
 void
-ChangeColors(XgtermWidget term, ScrnColors *pNew)
+ChangeColors(XtermWidget term, ScrnColors *pNew)
 {
         TScreen *screen = &term->screen;
         GC tmpGC;

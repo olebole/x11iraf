@@ -61,7 +61,7 @@ extern int waitingForTrackInfo;
 extern EventMode eventMode;
 extern GC visualBellGC;
 extern int VTgcFontMask;
-extern XgtermWidget term;
+extern XtermWidget term;
 
 #define	SZ_APPNAME 16
 extern Display *gtermio_display;

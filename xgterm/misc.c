@@ -300,7 +300,7 @@ static long lastBellTime;	/* in milliseconds */
 void
 Bell(void)
 {
-    extern XgtermWidget term;
+    extern XtermWidget term;
     TScreen *screen = &term->screen;
     struct timeval curtime;
     long now_msecs;
@@ -349,7 +349,7 @@ Bell(void)
 void
 VisualBell(void)
 {
-    extern XgtermWidget term;
+    extern XtermWidget term;
     TScreen *screen = &term->screen;
     Pixel xorPixel = screen->foreground ^ term->core.background_pixel;
     XGCValues gcval;
@@ -388,7 +388,7 @@ void HandleBellPropertyChange(Widget w, XtPointer data, XEvent *ev, Boolean *mor
 void
 Redraw(void)
 {
-	extern XgtermWidget term;
+	extern XtermWidget term;
 	TScreen *screen = &term->screen;
 	XExposeEvent event;
 
@@ -663,7 +663,7 @@ do_osc(int (*func) (/* ??? */))
         case 13:       case 14:        case 15:
         case 16:
                {
-                   extern Boolean ChangeColorsRequest(XgtermWidget pTerm, int start, char *names);
+                   extern Boolean ChangeColorsRequest(XtermWidget pTerm, int start, char *names);
                    if (term->misc.dynamicColors)
                        ChangeColorsRequest(term,mode-10,buf);
                }
@@ -727,7 +727,7 @@ Changetitle(char *name)
 ScrnColors      *pOldColors= NULL;
 
 Boolean
-GetOldColors(XgtermWidget pTerm)
+GetOldColors(XtermWidget pTerm)
 {
 int     i;
     if (pOldColors==NULL) {
@@ -747,7 +747,7 @@ int     i;
 }
 
 Boolean
-UpdateOldColors(XgtermWidget pTerm, ScrnColors *pNew)
+UpdateOldColors(XtermWidget pTerm, ScrnColors *pNew)
 {
 int     i;
 
@@ -825,7 +825,7 @@ char    *tmpName;
 }
 
 Boolean
-AllocateColor(XgtermWidget pTerm, ScrnColors *pNew, int ndx, char *name)
+AllocateColor(XtermWidget pTerm, ScrnColors *pNew, int ndx, char *name)
 {
 XColor                   def;
 TScreen        *screen=        &pTerm->screen;
@@ -846,7 +846,7 @@ char                    *newName;
 }
 
 Boolean
-ChangeColorsRequest(XgtermWidget pTerm, int start, char *names)
+ChangeColorsRequest(XtermWidget pTerm, int start, char *names)
 {
 char            *thisName;
 ScrnColors      newColors;
@@ -937,7 +937,7 @@ Error (int i)
 void
 Cleanup (int code)
 {
-	extern XgtermWidget term;
+	extern XtermWidget term;
 	TScreen *screen;
 
 	screen = &term->screen;
