@@ -289,7 +289,7 @@ gio_setup (
 	ObmAddCallback (obm, OBMCB_setGterm|OBMCB_preserve,
 	    (ObmFunc)gio_reset, NULL);
 
-	/* Register xgterm global actions. */
+	/* Register xterm global actions. */
 	if (!actions_registered) {
 	    XtAppAddActions (app_context, actionsList, XtNumber(actionsList));
 	    actions_registered++;

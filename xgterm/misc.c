@@ -547,7 +547,7 @@ StartLog(TScreen *screen)
 			setgid(screen->gid);
 			setuid(screen->uid);
 			execl(shell, shell, "-c", &screen->logfile[1], 0);
-			fprintf(stderr, "%s: Can't exec `%s'\n", xgterm_name,
+			fprintf(stderr, "%s: Can't exec `%s'\n", xterm_name,
 			 &screen->logfile[1]);
 			exit(ERROR_LOGEXEC);
 		}
@@ -598,7 +598,7 @@ FlushLog(TScreen *screen)
 	int i;
 
 /*
- * With xgterm pty input is read only in one place, hence logging is done
+ * With xterm pty input is read only in one place, hence logging is done
  * immediately upon input.
  *
  *	cp = bptr;
@@ -675,7 +675,7 @@ do_osc(int (*func) (/* ??? */))
 #ifdef ALLOWLOGFILECHANGES
 		/*
 		 * Warning, enabling this feature allows people to overwrite
-		 * arbitrary files accessible to the person running xgterm.
+		 * arbitrary files accessible to the person running xterm.
 		 */
 		if((cp = malloc((unsigned)strlen(buf) + 1)) == NULL)
 			break;
@@ -897,7 +897,7 @@ Panic(char *s, int a)
 {
 #ifdef DEBUG
 	if(debug) {
-		fprintf(stderr, "%s: PANIC!	", xgterm_name);
+		fprintf(stderr, "%s: PANIC!	", xterm_name);
 		fprintf(stderr, s, a);
 		fputs("\r\n", stderr);
 		fflush(stderr);
@@ -918,7 +918,7 @@ SysError (int i)
 
 	oerrno = errno;
 	/* perror(3) write(2)s to file descriptor 2 */
-	fprintf (stderr, "%s: Error %d, errno %d: ", xgterm_name, i, oerrno);
+	fprintf (stderr, "%s: Error %d, errno %d: ", xterm_name, i, oerrno);
 	fprintf (stderr, "%s\n", SysErrorMsg (oerrno));
 	Cleanup(i);
 }
@@ -926,7 +926,7 @@ SysError (int i)
 void
 Error (int i)
 {
-	fprintf (stderr, "%s: Error %d\n", xgterm_name, i);
+	fprintf (stderr, "%s: Error %d\n", xterm_name, i);
 	Cleanup(i);
 }
 
@@ -1040,7 +1040,7 @@ int xerror (Display *display, XErrorEvent *event)
                     return (0);
 	    } else {
 	        fprintf (stderr, 
-	            "%s: warning, error event received:\n", xgterm_name);
+	            "%s: warning, error event received:\n", xterm_name);
 	        (void) XmuPrintDefaultErrorMessage (display, event, stderr);
 
 	        if (nerrs++ > maxerrs)
@@ -1077,7 +1077,7 @@ xioerror(Display *dpy)
 {
 	(void) fprintf (stderr, 
 	    "%s:  fatal IO error %d (%s) or KillClient on X server \"%s\"\r\n",
-	    xgterm_name, errno, SysErrorMsg (errno),
+	    xterm_name, errno, SysErrorMsg (errno),
 	    DisplayString (dpy));
 
 	Exit(ERROR_XIOERROR);
@@ -1226,7 +1226,7 @@ void hide_tek_window (void)
 
 /*
  * The GTERMIO routines are called by the gtermio code during initialization
- * to provide hooks into the xgterm code.
+ * to provide hooks into the xterm code.
  */
 
 /* The following is called when a gtermio UI display connection is opened
@@ -1290,7 +1290,7 @@ int (*gtermio_SGMT)(XtPointer, char *);		XtPointer gtermio_SGMT_data;
 
 /* gtermio_register -- This routine is called by the GTERMIO protocol
  * module code during startup to register the protocol module's public
- * functions, called by the xgterm code during execution to process
+ * functions, called by the xterm code during execution to process
  * graphics data, activate or deactivate the graphics window, and so on.
  */
 void

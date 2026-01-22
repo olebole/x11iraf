@@ -58,7 +58,7 @@ extern void DoSecureKeyboard(Time time);
 #define SHIFTS 8		/* three keys, so eight combinations */
 #define	Coordinate(r,c)		((r) * (term->screen.max_col+1) + (c))
 
-extern char *xgterm_name;
+extern char *xterm_name;
 
 static void PointToRowCol(int y, int x, int *r, int *c);
 static void SelectionReceived(Widget w, XtPointer client_data, Atom *selection, Atom *type, XtPointer value, long unsigned int *length, int *format);
@@ -1142,16 +1142,16 @@ static Boolean ConvertSelection(
     int *format)
 {
     Display* d = XtDisplay(w);
-    XgtermWidget xgterm = (XgtermWidget)w;
+    XgtermWidget xterm = (XgtermWidget)w;
 
-    if (xgterm->screen.selection == NULL) return False; /* can this happen? */
+    if (xterm->screen.selection == NULL) return False; /* can this happen? */
 
     if (*target == XA_TARGETS(d)) {
 	Atom* targetP;
 	Atom* std_targets;
 	unsigned long std_length;
 	XmuConvertStandardSelection(
-		    w, xgterm->screen.selection_time, selection,
+		    w, xterm->screen.selection_time, selection,
 		    target, type, (char **)&std_targets, &std_length, format
 		   );
 	*length = std_length + 5;
@@ -1176,8 +1176,8 @@ static Boolean ConvertSelection(
 	    *type = *target;
 	else
 	    *type = XA_STRING;
-	*value = xgterm->screen.selection;
-	*length = xgterm->screen.selection_length;
+	*value = xterm->screen.selection;
+	*length = xterm->screen.selection_length;
 	*format = 8;
 	return True;
     }
@@ -1197,9 +1197,9 @@ static Boolean ConvertSelection(
     if (*target == XA_LENGTH(d)) {
 	*value = XtMalloc(4);
 	if (sizeof(long) == 4)
-	    *(long*)*value = xgterm->screen.selection_length;
+	    *(long*)*value = xterm->screen.selection_length;
 	else {
-	    long temp = xgterm->screen.selection_length;
+	    long temp = xterm->screen.selection_length;
 	    memmove( (char*)*value, ((char*)&temp)+sizeof(long)-4, 4);
 	}
 	*type = XA_INTEGER;
@@ -1207,7 +1207,7 @@ static Boolean ConvertSelection(
 	*format = 32;
 	return True;
     }
-    if (XmuConvertStandardSelection(w, xgterm->screen.selection_time, selection,
+    if (XmuConvertStandardSelection(w, xterm->screen.selection_time, selection,
 				    target, type,
 				    (char **)value, length, format))
 	return True;
@@ -1297,7 +1297,7 @@ static void _OwnSelection(XgtermWidget termw, String *selections, Cardinal count
 		 4*XMaxRequestSize(XtDisplay((Widget)termw))-32)
 		fprintf(stderr,
 			"%s: selection too big (%d bytes), not storing in CUT_BUFFER%d\n",
-			xgterm_name, termw->screen.selection_length, cutbuffer);
+			xterm_name, termw->screen.selection_length, cutbuffer);
 	    else
 		XStoreBuffer( XtDisplay((Widget)termw), termw->screen.selection,
 			      termw->screen.selection_length, cutbuffer );
@@ -1380,7 +1380,7 @@ SaveText(TScreen *screen, int row, int scol, int ecol, char *lp, int *eol)
 			/* If we can't get the attributes, assume no wrap */
 			/* CANTHAPPEN */
 			(void)fprintf(stderr, "%s: no attributes for %d, %d\n",
-				xgterm_name, row, ecol - 1);
+				xterm_name, row, ecol - 1);
 			*eol = 1;
 		}
 	}

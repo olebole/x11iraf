@@ -39,7 +39,7 @@ extern char log_def_name[];
 #endif
 extern char *ptydev;
 extern char *ttydev;
-extern char *xgterm_name;
+extern char *xterm_name;
 extern Char buffer[];
 extern int Select_mask;
 extern int T_lastx;

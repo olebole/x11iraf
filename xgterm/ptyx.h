@@ -281,7 +281,7 @@ typedef struct {
 	Cursor		arrow;		/* arrow cursor			*/
 	unsigned short	send_mouse_pos;	/* user wants mouse transition  */
 					/* and position information	*/
-	int		select;		/* xgterm selected		*/
+	int		select;		/* xterm selected		*/
 	Boolean		visualbell;	/* visual bell mode		*/
 	Boolean		allowSendEvents;/* SendEvent mode		*/
 	Boolean		grabbedKbd;	/* keyboard is grabbed		*/
@@ -450,7 +450,7 @@ typedef struct {int foo;} XgtermClassPart;
 
 typedef struct _XgtermClassRec {
     CoreClassPart  core_class;
-    XgtermClassPart xgterm_class;
+    XgtermClassPart xterm_class;
 } XgtermClassRec;
 
 /* define masks for flags */

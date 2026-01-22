@@ -655,7 +655,7 @@ static Boolean VTSetValues(Widget cur, Widget request, Widget new, ArgList args,
 static void VTInitI18N();
 #endif
 
-static WidgetClassRec xgtermClassRec = {
+static WidgetClassRec xtermClassRec = {
   {
 /* core_class fields */	
     /* superclass	  */	(WidgetClass) &widgetClassRec,
@@ -693,7 +693,7 @@ static WidgetClassRec xgtermClassRec = {
   }
 };
 
-WidgetClass xgtermWidgetClass = (WidgetClass)&xgtermClassRec;
+WidgetClass xtermWidgetClass = (WidgetClass)&xtermClassRec;
 
 static void VTparse(void)
 {
@@ -1377,12 +1377,12 @@ static void VTparse(void)
 			parsestate = groundtable;
 			break;
 
-		 case CASE_XGTERM_SAVE:
+		 case CASE_XTERM_SAVE:
 			savemodes(term);
 			parsestate = groundtable;
 			break;
 
-		 case CASE_XGTERM_RESTORE:
+		 case CASE_XTERM_RESTORE:
 			restoremodes(term);
 			parsestate = groundtable;
 			break;
@@ -1477,7 +1477,7 @@ v_write(int f, char *d, int len)
 		    } else {
 			/* no memory: ignore entire write request */
 			fprintf(stderr, "%s: cannot allocate buffer space\n",
-				xgterm_name);
+				xterm_name);
 			v_buffer = v_bufstr; /* restore clobbered pointer */
 			c = 0;
 		    }
@@ -2057,13 +2057,13 @@ dpmodes(XgtermWidget termw, void (*func) (unsigned int *, int))
 				FromAlternate(screen);
 			}
 			break;
-		case 1000:		/* xgterm bogus sequence	*/
+		case 1000:		/* xterm bogus sequence	*/
 			if(func == bitset)
 				screen->send_mouse_pos = 2;
 			else
 				screen->send_mouse_pos = 0;
 			break;
-		case 1001:		/* xgterm sequence w/hilite tracking */
+		case 1001:		/* xterm sequence w/hilite tracking */
 			if(func == bitset)
 				screen->send_mouse_pos = 3;
 			else
@@ -2074,7 +2074,7 @@ dpmodes(XgtermWidget termw, void (*func) (unsigned int *, int))
 }
 
 /*
- * process xgterm private modes save
+ * process xterm private modes save
  */
 void
 savemodes(XgtermWidget termw)
@@ -2140,7 +2140,7 @@ savemodes(XgtermWidget termw)
 }
 
 /*
- * process xgterm private modes restore
+ * process xterm private modes restore
  */
 void
 restoremodes(XgtermWidget termw)
@@ -2531,7 +2531,7 @@ static void VTResize(Widget w)
 				
 extern Atom wm_delete_window;	/* for ICCCM delete window */
 
-static String xgterm_trans =
+static String xterm_trans =
     "<ClientMessage>WM_PROTOCOLS: DeleteWindow()\n\
      <MappingNotify>: KeyboardMapping()\n";
 
@@ -2541,7 +2541,7 @@ int VTInit (void)
     Widget vtparent = term->core.parent;
 
     XtRealizeWidget (vtparent);
-    XtOverrideTranslations(vtparent, XtParseTranslationTable(xgterm_trans));
+    XtOverrideTranslations(vtparent, XtParseTranslationTable(xterm_trans));
     (void) XSetWMProtocols (XtDisplay(vtparent), XtWindow(vtparent),
 			    &wm_delete_window, 1);
 
@@ -2643,7 +2643,7 @@ static void VTInitialize (Widget wrequest, Widget wnew, ArgList args, Cardinal *
    new->core.height = new->core.width = 1;
       /* dummy values so that we don't try to Realize the parent shell 
 	 with height or width of 0, which is illegal in X.  The real
-	 size is computed in the xgtermWidget's Realize proc,
+	 size is computed in the xtermWidget's Realize proc,
 	 but the shell's Realize proc is called first, and must see
 	 a valid size. */
 
@@ -2706,7 +2706,7 @@ static void VTRealize (Widget w, XtValueMask *valuemask, XSetWindowAttributes *v
 	    if (XmuCompareISOLatin1(term->misc.f_n, "fixed") != 0) {
 		fprintf (stderr, 
 		     "%s:  unable to open font \"%s\", trying \"fixed\"....\n",
-		     xgterm_name, term->misc.f_n);
+		     xterm_name, term->misc.f_n);
 		(void) LoadNewFont (screen, "fixed", NULL, False, 0);
 		screen->menu_font_names[fontMenu_fontdefault] = "fixed";
 	    }
@@ -2715,7 +2715,7 @@ static void VTRealize (Widget w, XtValueMask *valuemask, XSetWindowAttributes *v
 	/* really screwed if we couldn't open default font */
 	if (!screen->fnt_norm) {
 	    fprintf (stderr, "%s:  unable to locate a suitable font\n",
-		     xgterm_name);
+		     xterm_name);
 	    Exit (1);
 	}
 

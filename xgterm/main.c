@@ -620,7 +620,7 @@ static char etc_wtmp[] = WTMP_FILENAME;
 
 /*
  * Some people with 4.3bsd /bin/login seem to like to use login -p -f user
- * to implement xgterm -ls.  They can turn on USE_LOGIN_DASH_P and turn off
+ * to implement xterm -ls.  They can turn on USE_LOGIN_DASH_P and turn off
  * WTMP and LASTLOG.
  */
 #ifdef USE_LOGIN_DASH_P
@@ -651,7 +651,7 @@ char *ProgramName;
 Boolean sunFunctionKeys;
 
 static struct _resource {
-    char *xgterm_name;
+    char *xterm_name;
     char *icon_geometry;
     char *title;
     char *icon_name;
@@ -669,7 +669,7 @@ static struct _resource {
 
 static XtResource application_resources[] = {
     {"name", "Name", XtRString, sizeof(char *),
-	offset(xgterm_name), XtRString, "xgterm"},
+	offset(xterm_name), XtRString, "xterm"},
     {"iconGeometry", "IconGeometry", XtRString, sizeof(char *),
 	offset(icon_geometry), XtRString, (void *) NULL},
     {XtNtitle, XtCTitle, XtRString, sizeof(char *),
@@ -947,7 +947,7 @@ ConvertConsoleSelection(Widget w, Atom *selection, Atom *target, Atom *type, XtP
 #endif /* TIOCCONS */
 
 
-extern WidgetClass xgtermWidgetClass;
+extern WidgetClass xtermWidgetClass;
 
 Arg ourTopLevelShellArgs[] = {
 	{ XtNallowShellResize, (XtArgVal) TRUE },	
@@ -1208,9 +1208,9 @@ main (int argc, char **argv)
 	    }
 	}
 
-	xgterm_name = resource.xgterm_name;
+	xterm_name = resource.xterm_name;
 	sunFunctionKeys = resource.sunFunctionKeys;
-	if (strcmp(xgterm_name, "-") == 0) xgterm_name = "xgterm";
+	if (strcmp(xterm_name, "-") == 0) xterm_name = "xterm";
 	if (resource.icon_geometry != NULL) {
 	    int scr, junk;
 	    int ix, iy;
@@ -1292,7 +1292,7 @@ main (int argc, char **argv)
 
 	/* Create the vt100 terminal emulator widget. */
         term = (XgtermWidget) XtCreateManagedWidget ("vt100",
-	    xgtermWidgetClass, toplevel, NULL, 0);
+	    xtermWidgetClass, toplevel, NULL, 0);
         screen = &term->screen;
 
 	if (screen->savelines < 0) screen->savelines = 0;
@@ -1358,12 +1358,12 @@ main (int argc, char **argv)
 #ifdef DEBUG
     {
 	/* Set up stderr properly.  Opening this log file cannot be
-	 done securely by a privileged xgterm process (although we try),
+	 done securely by a privileged xterm process (although we try),
 	 so the debug feature is disabled by default. */
 	int i = -1;
 	if(debug) {
-	        creat_as (getuid(), getgid(), "xgterm.debug.log", 0666);
-		i = open ("xgterm.debug.log", O_WRONLY | O_TRUNC, 0666);
+	        creat_as (getuid(), getgid(), "xterm.debug.log", 0666);
+		i = open ("xterm.debug.log", O_WRONLY | O_TRUNC, 0666);
 	}
 	if(i >= 0) {
 #if defined(USE_SYSV_TERMIO) && !defined(SVR4) && !defined(linux)
@@ -1932,7 +1932,7 @@ static char *vtterm[] = {
 #ifdef USE_X11TERM
 	"x11term",		/* for people who want special term name */
 #endif
-	"xgterm",		/* technically correct name */
+	"xterm",		/* technically correct name */
 	"xterm",		/* more likely to be found */
 	"vt102",
 	"vt100",
@@ -2009,7 +2009,7 @@ void first_map_occurred (void)
 }
 #else
 /*
- * temporary hack to get xgterm working on att ptys
+ * temporary hack to get xterm working on att ptys
  */
 void first_map_occurred ()
 {
@@ -3009,13 +3009,13 @@ spawn(void)
 		    int on = 1;
 		    if (ioctl(tty, TIOCCONS, (char *) &on) == -1)
 			fprintf(stderr, "%s: cannot open console: %s\n",
-				"xgterm", strerror(errno));
+				"xterm", strerror(errno));
 #endif
 #ifdef SRIOCSREDIR
 		    int fd = open("/dev/console", O_RDWR);
 		    if (fd == -1 || ioctl(fd, SRIOCSREDIR, tty) == -1)
 			fprintf(stderr, "%s: cannot open console: %s\n",
-				"xgterm", strerror(errno));
+				"xterm", strerror(errno));
 		    (void) close(fd);
 #endif
 		}
@@ -3526,9 +3526,9 @@ spawn(void)
 		execvp(*command_to_exec_with_luit, command_to_exec_with_luit);
 		/* print error message on screen */
 		fprintf(stderr, "%s: Can't execvp %s: %s\n",
-			"xgterm", *command_to_exec_with_luit, strerror(errno));
+			"xterm", *command_to_exec_with_luit, strerror(errno));
 		fprintf(stderr, "%s: cannot support your locale.\n",
-			"xgterm");
+			"xterm");
 	    }
 #endif
 	    if (command_to_exec) {
@@ -3537,7 +3537,7 @@ spawn(void)
 		    execlp(ptr, shname, "-c", command_to_exec[0], (void *) 0);
 		/* print error message on screen */
 		fprintf(stderr, "%s: Can't execvp %s: %s\n",
-			"xgterm", *command_to_exec, strerror(errno));
+			"xterm", *command_to_exec, strerror(errno));
 	    }
 #ifdef USE_SYSV_SIGHUP
 	    /* fix pts sh hanging around
@@ -3563,7 +3563,7 @@ spawn(void)
 		   (void *) 0);
 
 	    /* Exec failed. */
-	    fprintf(stderr, "%s: Could not exec %s: %s\n", "xgterm",
+	    fprintf(stderr, "%s: Could not exec %s: %s\n", "xterm",
 		    ptr, strerror(errno));
 	    (void) sleep(5);
 	    exit(ERROR_EXEC);
@@ -3611,7 +3611,7 @@ spawn(void)
 			/* no more ptys! */
 			fprintf(stderr,
 				"%s: child process can find no available ptys: %s\n",
-				"xgterm", strerror(errno));
+				"xterm", strerror(errno));
 			handshake.status = PTY_NOMORE;
 			write(pc_pipe[1], (char *) &handshake, sizeof(handshake));
 			exit(ERROR_PTYS);
@@ -3641,7 +3641,7 @@ spawn(void)
 		    break;
 		default:
 		    fprintf(stderr, "%s: unexpected handshake status %d\n",
-			    "xgterm", handshake.status);
+			    "xterm", handshake.status);
 		}
 	    }
 	    /* close our sides of the pipes */
@@ -3909,7 +3909,7 @@ spawn ()
 #endif /* PUCC_PTYD */
 			/*  no ptys! */
 			(void) fprintf(stderr, "%s: no available ptys\n",
-				       xgterm_name);
+				       xterm_name);
 			exit (ERROR_PTYS);
 #ifdef PUCC_PTYD
 		}
@@ -4367,13 +4367,13 @@ spawn ()
 			int on = 1;
 			if (ioctl (tty, TIOCCONS, (char *)&on) == -1)
 			    fprintf(stderr, "%s: cannot open console\n",
-				    xgterm_name);
+				    xterm_name);
 #endif
 #ifdef SRIOCSREDIR
 			int fd = open("/dev/console",O_RDWR);
 			if (fd == -1 || ioctl (fd, SRIOCSREDIR, tty) == -1)
 			    fprintf(stderr, "%s: cannot open console\n",
-				    xgterm_name);
+				    xterm_name);
 			(void) close (fd);
 #endif
 		    }
@@ -4740,7 +4740,7 @@ spawn ()
 		if (command_to_exec) {
 			execvp(*command_to_exec, command_to_exec);
 			/* print error message on screen */
-			fprintf(stderr, "%s: Can't execvp %s\n", xgterm_name,
+			fprintf(stderr, "%s: Can't execvp %s\n", xterm_name,
 			 *command_to_exec);
 		} 
 
@@ -4794,7 +4794,7 @@ spawn ()
 			0);
 
 		/* Exec failed. */
-		fprintf (stderr, "%s: Could not exec %s!\n", xgterm_name, ptr);
+		fprintf (stderr, "%s: Could not exec %s!\n", xterm_name, ptr);
 		(void) sleep(5);
 		exit(ERROR_EXEC);
 	    }				/* end if in child after fork */
@@ -4838,7 +4838,7 @@ spawn ()
 			    /* no more ptys! */
 			    (void) fprintf(stderr,
 			      "%s: child process can find no available ptys\n",
-			      xgterm_name);
+			      xterm_name);
 			    handshake.status = PTY_NOMORE;
 			    write(pc_pipe[1], (char *) &handshake, sizeof(handshake));
 			    exit (ERROR_PTYS);
@@ -4868,7 +4868,7 @@ spawn ()
 			break;
 		default:
 			fprintf(stderr, "%s: unexpected handshake status %d\n",
-			        xgterm_name, handshake.status);
+			        xterm_name, handshake.status);
 		}
 	    }
 	    /* close our sides of the pipes */
@@ -4880,7 +4880,7 @@ spawn ()
 	}				/* end if no slave */
 
 	/*
-	 * still in parent (xgterm process)
+	 * still in parent (xterm process)
 	 */
 
 #ifdef USE_SYSV_SIGHUP
@@ -4892,8 +4892,8 @@ spawn ()
 
 /*
  * Unfortunately, System V seems to have trouble divorcing the child process
- * from the process group of xgterm.  This is a problem because hitting the 
- * INTR or QUIT characters on the keyboard will cause xgterm to go away if we
+ * from the process group of xterm.  This is a problem because hitting the 
+ * INTR or QUIT characters on the keyboard will cause xterm to go away if we
  * don't ignore the signals.  This is annoying.
  */
 

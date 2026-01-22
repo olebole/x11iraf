@@ -70,7 +70,7 @@ static void ResizeScreen(XgtermWidget xw, int min_width, int min_height)
 	 *
 	 * In a correctly written toolkit program, the Shell widget
 	 * parses the user supplied geometry argument.  However,
-	 * because of the way xgterm does things, the VT100 widget does
+	 * because of the way xterm does things, the VT100 widget does
 	 * the parsing of the geometry option, not the Shell widget.
 	 * The result of this is that the Shell widget doesn't set the
 	 * correct window manager hints, and doesn't know that the
@@ -104,7 +104,7 @@ static void ResizeScreen(XgtermWidget xw, int min_width, int min_height)
 	 * give back responsibility for the size hints to the Shell.
 	 *
 	 * Someday, we hope to have time to do this.  Someday, we hope
-	 * to have time to completely rewrite xgterm.
+	 * to have time to completely rewrite xterm.
 	 */
 
 #ifndef nothack

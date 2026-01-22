@@ -8,9 +8,9 @@
 ! Comment out if not color display.
 *SimpleMenu*menuLabel.foreground: 	White
 *SimpleMenu.borderColor: 		black
-!.xgterm.SimpleMenu.background: 	#7c8498
+!.xterm.SimpleMenu.background: 	#7c8498
 !.gterm-iraf.tekMenu.background: 	#7c8498
-.xgterm.SimpleMenu.background: 		#8992a8
+.xterm.SimpleMenu.background: 		#8992a8
 .gterm-iraf.tekMenu.background: 	#8992a8
 *SimpleMenu*foreground: 		Black
 
